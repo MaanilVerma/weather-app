@@ -64,7 +64,7 @@ export const UserInputProvider = ({ children }: { children: any }) => {
       try {
         const response = await getCurrentWeather(userInput || "Mumbai");
         setWeather(response);
-      } catch (error) {
+      } catch (error: any) {
         toast.error("No matching location found. 🙇");
         throw new Error(error);
       } finally {
