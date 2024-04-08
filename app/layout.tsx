@@ -1,3 +1,5 @@
+import { ToggleThemeProvider } from "@/context/ToggleThemeContext";
+import { UserInputProvider } from "@/context/UserInputContext";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -15,8 +17,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
+    <ToggleThemeProvider>
+      <UserInputProvider>
+        <html lang="en">
+          <body className={inter.className}>
+            <>{children}</>
+          </body>
+        </html>
+      </UserInputProvider>
+    </ToggleThemeProvider>
   );
 }
