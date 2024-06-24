@@ -17,7 +17,7 @@ const Sidebar = () => {
     isLoading,
     handleUserInput,
     weather,
-    extraDetails,
+    getUserLocationWeather,
     weatherTypeToggle,
   } = useUserInputContext();
 
@@ -75,7 +75,8 @@ const Sidebar = () => {
               <section
                 className={`w-fit h-fit   ${
                   theme === "dark" ? "bg-[#27272a] text-white" : "bg-[#f6f6f8]"
-                } p-2 rounded-full text-lg `}
+                } p-2 rounded-full text-lg cursor-pointer `}
+                onClick={getUserLocationWeather}
               >
                 <LuCrosshair />{" "}
               </section>
