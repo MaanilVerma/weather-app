@@ -16,6 +16,7 @@ interface UserInputContextType {
   isLoading: boolean;
   weatherTypeToggle: "celcius" | "fareinheit";
   handleWeatherTypeToggle: () => void;
+  getUserLocationWeather: () => void;
 }
 
 // Create the context
@@ -58,6 +59,32 @@ export const UserInputProvider = ({ children }: { children: any }) => {
     );
   };
 
+  const getUserLocationWeather = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const { latitude, longitude } = position.coords;
+          try {
+            setIsLoading(true);
+            const response = await getCurrentWeather(`${latitude},${longitude}`);
+            setWeather(response);
+          } catch (error: any) {
+            toast.error("Could not fetch weather data for your location. 🙇");
+            console.error(error);
+          } finally {
+            setIsLoading(false);
+          }
+        },
+        (error) => {
+          toast.error("Unable to retrieve your location. 🙇");
+          console.error(error);
+        }
+      );
+    } else {
+      toast.error("Geolocation is not supported by your browser. 🙇");
+    }
+  };
+
   useEffect(() => {
     const fetchWeather = async () => {
       setIsLoading(true);
@@ -86,6 +113,7 @@ export const UserInputProvider = ({ children }: { children: any }) => {
     isLoading,
     weatherTypeToggle,
     handleWeatherTypeToggle,
+    getUserLocationWeather
   };
 
   return (
